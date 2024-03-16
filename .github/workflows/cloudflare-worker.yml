@@ -44,4 +44,4 @@ jobs:
         with:
           packageManager: pnpm # you can omit this if you use npm
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
