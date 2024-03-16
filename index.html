@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Static Site</title>
+</head>
+<body>
+    <button id="postApiCall">Call API (POST)</button>
+    <button id="getApiCall">Test Cookie (GET)</button>
+    <pre id="apiResponse"></pre>
+    <script>
+        document.getElementById('postApiCall').addEventListener('click', async () => {
+            const url = 'https://bar.alukach.com/api';
+            const response = await fetch(url, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ data: 'Hello from the static site' }),
+            });
+            const data = await response.json();
+            console.log(data);
+        });
+
+        document.getElementById('getApiCall').addEventListener('click', async () => {
+            const url = 'https://bar.alukach.com/api';
+            const response = await fetch(url, {
+                method: 'GET',
+                credentials: 'include', // Ensure cookies are sent
+            });
+            const text = await response.text();
+            const status = response.status;
+            document.getElementById('apiResponse').textContent = `Status: ${status}, Response: ${text}`;
+        });
+    </script>
+</body>
+</html>
