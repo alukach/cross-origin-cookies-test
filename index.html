@@ -4,12 +4,95 @@
 <head>
     <meta charset="UTF-8">
     <title>Cross Origin Cookie Test</title>
+    <style>
+        pre {
+            font-family: 'Courier New', Courier, monospace;
+        }
+    </style>
 </head>
 
 <body>
     <button id="postApiCall">Get Cookie (POST)</button>
     <button id="getApiCall">Test Cookie (GET)</button>
     <pre id="apiResponse"></pre>
+
+    <details>
+        <summary>API Code</summary>
+        <pre>
+const frontendUrl = "https://cross-origin-cookie-test.alukach.com"
+
+export default {
+  async fetch(request, env, ctx) {
+    // Handle CORS preflight requests
+    if (request.method === "OPTIONS") {
+      return new Response(null, {
+        headers: {
+          "Access-Control-Allow-Origin": frontendUrl,
+          "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Credentials": "true",
+          "Vary": "Origin"
+        }
+      });
+    }
+
+    // Extract cookies from request
+    const cookieHeader = request.headers.get("Cookie") || "";
+    const cookies = cookieHeader.split(";").reduce((acc, current) => {
+      const [name, value] = current.trim().split("=");
+      acc[name] = value;
+      return acc;
+    }, {});
+
+    // Handle POST requests
+    if (request.method === "POST") {
+      const headers = new Headers({
+        "Access-Control-Allow-Origin": frontendUrl,
+        "Access-Control-Allow-Credentials": "true",
+        "Content-Type": "application/json",
+        "Set-Cookie": "api_token=123456789; SameSite=None; Secure; Path=/",
+      });
+
+      const body = { message: "Hello from the API" };
+      return new Response(JSON.stringify(body), { headers });
+    }
+
+    // Handle GET requests
+    if (request.method === "GET") {
+      if (!cookies["api_token"]) {
+        return new Response("Unauthorized", { status: 401 });
+      }
+      
+      if (request.url.endsWith('/image')) {
+        const imageResponse = await fetch("https://picsum.photos/200/300");
+    
+        // Clone the response so we can modify headers
+        const modifiedResponse = new Response(imageResponse.body, imageResponse);
+    
+        // Set CORS headers to allow the image to be shared with the origin site
+        modifiedResponse.headers.set('Access-Control-Allow-Origin', frontendUrl);
+        modifiedResponse.headers.set('Access-Control-Allow-Credentials', 'true');
+        modifiedResponse.headers.set('Vary', 'Origin'); // Ensures cache varies based on Origin header
+    
+        return modifiedResponse;
+      }
+
+      const headers = new Headers({
+        "Access-Control-Allow-Origin": frontendUrl,
+        "Access-Control-Allow-Credentials": "true",
+        "Content-Type": "application/json",
+      });
+
+      const body = { message: "Cookie validated successfully" };
+      return new Response(JSON.stringify(body), { status: 200, headers });
+    }
+
+    // Catch-all for other requests
+    return new Response("Method not allowed", { status: 405 });
+  }
+}
+        </pre>
+    </details>
 
     <img src="https://cross-origin-cookie-test.alukach.workers.dev/image" />
     <script>
