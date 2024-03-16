@@ -4,17 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Cross Origin Cookie Test</title>
-  <style>
-    pre {
-      font-family: 'Courier New', Courier, monospace;
-    }
-  </style>
 </head>
 
 <body>
   <button id="postApiCall">Get Cookie (POST)</button>
   <button id="getApiCall">Test Cookie (GET)</button>
-  <button id="clearCookie">Clear Cookie</button>
 
   <pre id="apiResponse"></pre>
 
@@ -110,8 +104,7 @@ export default {
         },
         body: JSON.stringify({ data: 'Hello from the static site' }),
       });
-      const data = await response.json();
-      console.log(data);
+      document.getElementById('apiResponse').textContent = `Status: ${response.status}, Response: ${await response.text()}`;
     });
 
     document.getElementById('getApiCall').addEventListener('click', async () => {
@@ -119,16 +112,7 @@ export default {
         method: 'GET',
         credentials: 'include', // Required to include cookie in fetch calls
       });
-      const text = await response.text();
-      const status = response.status;
-      document.getElementById('apiResponse').textContent = `Status: ${status}, Response: ${text}`;
-    });
-
-    document.getElementById('clearCookie').addEventListener('click', async () => {
-      // Clear the cookie by setting its expiry to the past
-      const response = await fetch(url, {
-        method: 'DELETE',
-      });
+      document.getElementById('apiResponse').textContent = `Status: ${response.status}, Response: ${await response.text()}`;
     });
   </script>
 </body>
