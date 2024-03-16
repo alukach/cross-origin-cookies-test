@@ -16,9 +16,11 @@
     <button id="getApiCall">Test Cookie (GET)</button>
     <pre id="apiResponse"></pre>
 
+    <img src="https://cross-origin-cookie-test.alukach.workers.dev/image" />
+
     <details>
         <summary>API Code</summary>
-        <pre>
+        <pre style="font-size: .75rem">
 const frontendUrl = "https://cross-origin-cookie-test.alukach.com"
 
 export default {
@@ -94,7 +96,6 @@ export default {
         </pre>
     </details>
 
-    <img src="https://cross-origin-cookie-test.alukach.workers.dev/image" />
     <script>
         const url = 'https://cross-origin-cookie-test.alukach.workers.dev';
         document.getElementById('postApiCall').addEventListener('click', async () => {
