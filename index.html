@@ -2,25 +2,25 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Cross Origin Cookie Test</title>
-    <style>
-        pre {
-            font-family: 'Courier New', Courier, monospace;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Cross Origin Cookie Test</title>
+  <style>
+    pre {
+      font-family: 'Courier New', Courier, monospace;
+    }
+  </style>
 </head>
 
 <body>
-    <button id="postApiCall">Get Cookie (POST)</button>
-    <button id="getApiCall">Test Cookie (GET)</button>
-    <pre id="apiResponse"></pre>
+  <button id="postApiCall">Get Cookie (POST)</button>
+  <button id="getApiCall">Test Cookie (GET)</button>
+  <pre id="apiResponse"></pre>
 
-    <img src="https://cross-origin-cookie-test.alukach.workers.dev/image" />
+  <img src="https://cross-origin-cookie-test.alukach.workers.dev/image" />
 
-    <details>
-        <summary>API Code</summary>
-        <pre style="font-size: .75rem">
+  <details>
+    <summary>API Code</summary>
+    <pre style="font-size: .75rem">
 const frontendUrl = "https://cross-origin-cookie-test.alukach.com"
 
 export default {
@@ -94,33 +94,29 @@ export default {
   }
 }
         </pre>
-    </details>
+  </details>
 
-    <script>
-        const url = 'https://cross-origin-cookie-test.alukach.workers.dev';
-        document.getElementById('postApiCall').addEventListener('click', async () => {
-            const response = await fetch(url, {
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ data: 'Hello from the static site' }),
-            });
-            const data = await response.json();
-            console.log(data);
-        });
+  <script>
+    const url = 'https://cross-origin-cookie-test.alukach.workers.dev';
+    document.getElementById('postApiCall').addEventListener('click', async () => {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ data: 'Hello from the static site' }),
+      });
+      const data = await response.json();
+      console.log(data);
+    });
 
-        document.getElementById('getApiCall').addEventListener('click', async () => {
-            const response = await fetch(url, {
-                method: 'GET',
-                credentials: 'include', // Ensure cookies are sent
-            });
-            const text = await response.text();
-            const status = response.status;
-            document.getElementById('apiResponse').textContent = `Status: ${status}, Response: ${text}`;
-        });
-    </script>
+    document.getElementById('getApiCall').addEventListener('click', async () => {
+      const response = await fetch(url);
+      const text = await response.text();
+      const status = response.status;
+      document.getElementById('apiResponse').textContent = `Status: ${status}, Response: ${text}`;
+    });
+  </script>
 </body>
 
 </html>
