@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy api to Cloudflare Workers
 
 on:
   push:
