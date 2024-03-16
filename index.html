@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Static Site</title>
+    <title>Cross Origin Cookie Test</title>
 </head>
 <body>
     <button id="postApiCall">Call API (POST)</button>
     <button id="getApiCall">Test Cookie (GET)</button>
     <pre id="apiResponse"></pre>
     <script>
+        const url = 'https://cross-origin-cookie-test.alukach.workers.dev';
         document.getElementById('postApiCall').addEventListener('click', async () => {
-            const url = 'https://bar.alukach.com/api';
             const response = await fetch(url, {
                 method: 'POST',
                 credentials: 'include',
@@ -24,7 +24,6 @@
         });
 
         document.getElementById('getApiCall').addEventListener('click', async () => {
-            const url = 'https://bar.alukach.com/api';
             const response = await fetch(url, {
                 method: 'GET',
                 credentials: 'include', // Ensure cookies are sent
