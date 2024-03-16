@@ -106,6 +106,7 @@ export default {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          credentials: 'include', // Flailing to get this to work.
         },
         body: JSON.stringify({ data: 'Hello from the static site' }),
       });
@@ -123,9 +124,11 @@ export default {
       document.getElementById('apiResponse').textContent = `Status: ${status}, Response: ${text}`;
     });
 
-    document.getElementById('clearCookie').addEventListener('click', () => {
+    document.getElementById('clearCookie').addEventListener('click', async () => {
       // Clear the cookie by setting its expiry to the past
-      document.cookie = "api_token=; Max-Age=-99999999;";
+      const response = await fetch(url, {
+        method: 'DELETE',
+      });
     });
   </script>
 </body>
