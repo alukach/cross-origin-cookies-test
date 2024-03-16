@@ -100,6 +100,7 @@ export default {
 
   <script>
     const url = 'https://cross-origin-cookie-test.alukach.workers.dev';
+
     document.getElementById('postApiCall').addEventListener('click', async () => {
       const response = await fetch(url, {
         method: 'POST',
@@ -113,7 +114,10 @@ export default {
     });
 
     document.getElementById('getApiCall').addEventListener('click', async () => {
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        method: 'GET',
+        credentials: 'include', // Required to include cookie in fetch calls
+      });
       const text = await response.text();
       const status = response.status;
       document.getElementById('apiResponse').textContent = `Status: ${status}, Response: ${text}`;
