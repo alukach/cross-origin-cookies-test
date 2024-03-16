@@ -14,6 +14,8 @@
 <body>
   <button id="postApiCall">Get Cookie (POST)</button>
   <button id="getApiCall">Test Cookie (GET)</button>
+  <button id="clearCookie">Clear Cookie</button>
+
   <pre id="apiResponse"></pre>
 
   <img src="https://cross-origin-cookie-test.alukach.workers.dev/image" />
@@ -115,6 +117,11 @@ export default {
       const text = await response.text();
       const status = response.status;
       document.getElementById('apiResponse').textContent = `Status: ${status}, Response: ${text}`;
+    });
+
+    document.getElementById('clearCookie').addEventListener('click', () => {
+      // Clear the cookie by setting its expiry to the past
+      document.cookie = "api_token=; Max-Age=-99999999;";
     });
   </script>
 </body>
