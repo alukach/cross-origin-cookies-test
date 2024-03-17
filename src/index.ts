@@ -62,7 +62,7 @@ export default {
 				});
 			}
 
-			if (request.url.endsWith('/image')) {
+			if (new URL(request.url).pathname === '/image') {
 				const imageResponse = await fetch('https://picsum.photos/200/300');
 
 				// Convert the response body to a Uint8Array

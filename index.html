@@ -12,7 +12,7 @@
 
 		<pre id="apiResponse"></pre>
 
-		<img src="https://cross-origin-cookie-test.alukach.workers.dev/image" />
+		<img id="testImage" src="https://cross-origin-cookie-test.alukach.workers.dev/image" />
 
 		<details>
 			<summary>API Code</summary>
@@ -106,6 +106,7 @@ export default {
 					body: JSON.stringify({ data: 'Hello from the static site' }),
 				});
 				document.getElementById('apiResponse').textContent = `Status: ${response.status}, Response: ${await response.text()}`;
+        updateImage()
 			});
 
 			document.getElementById('getApiCall').addEventListener('click', async () => {
@@ -122,7 +123,18 @@ export default {
 					credentials: 'include', // Required to remove cookie in browser
 				});
 				document.getElementById('apiResponse').textContent = `Status: ${response.status}, Response: ${await response.text()}`;
+        updateImage()
 			});
+
+			function updateImage() {
+				const image = document.getElementById('testImage');
+				const url = new URL(image.src);
+				const nonce = Math.floor(Date.now() / 1000);
+
+				url.searchParams.has('t') ? url.searchParams.set('t', nonce) : url.searchParams.append('t', nonce);
+
+				image.src = url.toString();
+			}
 		</script>
 	</body>
 </html>
