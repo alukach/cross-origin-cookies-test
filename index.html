@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Cross Origin Cookie Test</title>
+	</head>
 
-<head>
-  <meta charset="UTF-8">
-  <title>Cross Origin Cookie Test</title>
-</head>
+	<body>
+		<button id="postApiCall">Get Cookie (POST)</button>
+		<button id="getApiCall">Test Cookie (GET)</button>
 
-<body>
-  <button id="postApiCall">Get Cookie (POST)</button>
-  <button id="getApiCall">Test Cookie (GET)</button>
+		<pre id="apiResponse"></pre>
 
-  <pre id="apiResponse"></pre>
+		<img src="https://cross-origin-cookie-test.alukach.workers.dev/image" />
 
-  <img src="https://cross-origin-cookie-test.alukach.workers.dev/image" />
-
-  <details>
-    <summary>API Code</summary>
-    <pre style="font-size: .75rem">
+		<details>
+			<summary>API Code</summary>
+			<pre style="font-size: 0.75rem">
 const frontendUrl = "https://cross-origin-cookie-test.alukach.com"
 
 export default {
@@ -89,32 +88,32 @@ export default {
     return new Response("Method not allowed", { status: 405 });
   }
 }
-        </pre>
-  </details>
+        </pre
+			>
+		</details>
 
-  <script>
-    const url = 'https://cross-origin-cookie-test.alukach.workers.dev';
+		<script>
+			const url = 'https://cross-origin-cookie-test.alukach.workers.dev';
 
-    document.getElementById('postApiCall').addEventListener('click', async () => {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          credentials: 'include', // Flailing to get this to work.
-        },
-        body: JSON.stringify({ data: 'Hello from the static site' }),
-      });
-      document.getElementById('apiResponse').textContent = `Status: ${response.status}, Response: ${await response.text()}`;
-    });
+			document.getElementById('postApiCall').addEventListener('click', async () => {
+				const response = await fetch(url, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					credentials: 'include', // Flailing to get this to work.
+					body: JSON.stringify({ data: 'Hello from the static site' }),
+				});
+				document.getElementById('apiResponse').textContent = `Status: ${response.status}, Response: ${await response.text()}`;
+			});
 
-    document.getElementById('getApiCall').addEventListener('click', async () => {
-      const response = await fetch(url, {
-        method: 'GET',
-        credentials: 'include', // Required to include cookie in fetch calls
-      });
-      document.getElementById('apiResponse').textContent = `Status: ${response.status}, Response: ${await response.text()}`;
-    });
-  </script>
-</body>
-
+			document.getElementById('getApiCall').addEventListener('click', async () => {
+				const response = await fetch(url, {
+					method: 'GET',
+					credentials: 'include', // Required to include cookie in fetch calls
+				});
+				document.getElementById('apiResponse').textContent = `Status: ${response.status}, Response: ${await response.text()}`;
+			});
+		</script>
+	</body>
 </html>
