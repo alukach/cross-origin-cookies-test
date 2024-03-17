@@ -8,6 +8,7 @@
 	<body>
 		<button id="postApiCall">Get Cookie (POST)</button>
 		<button id="getApiCall">Test Cookie (GET)</button>
+		<button id="clearToken">Remove Cookie (DELETE)</button>
 
 		<pre id="apiResponse"></pre>
 
@@ -101,7 +102,7 @@ export default {
 					headers: {
 						'Content-Type': 'application/json',
 					},
-					credentials: 'include', // Flailing to get this to work.
+					credentials: 'include', // Required to set cookie in browser
 					body: JSON.stringify({ data: 'Hello from the static site' }),
 				});
 				document.getElementById('apiResponse').textContent = `Status: ${response.status}, Response: ${await response.text()}`;
@@ -111,6 +112,14 @@ export default {
 				const response = await fetch(url, {
 					method: 'GET',
 					credentials: 'include', // Required to include cookie in fetch calls
+				});
+				document.getElementById('apiResponse').textContent = `Status: ${response.status}, Response: ${await response.text()}`;
+			});
+
+			document.getElementById('clearToken').addEventListener('click', async () => {
+				const response = await fetch(url, {
+					method: 'DELETE',
+					credentials: 'include', // Required to remove cookie in browser
 				});
 				document.getElementById('apiResponse').textContent = `Status: ${response.status}, Response: ${await response.text()}`;
 			});
