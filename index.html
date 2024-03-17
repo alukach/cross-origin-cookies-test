@@ -13,7 +13,7 @@
 
 		<pre id="apiResponse"></pre>
 
-		<img id="testImage" src="https://cross-origin-cookie-test.alukach.workers.dev/image" />
+		<img id="testImage" />
 
 		<details>
 			<summary>API Code</summary>
@@ -124,6 +124,7 @@ export default {
 
 		<script>
 			const url = 'https://cross-origin-cookie-test.alukach.workers.dev';
+      updateImage()
 
 			document.getElementById('postApiCall').addEventListener('click', async () => {
 				const response = await fetch(url, {
@@ -156,13 +157,8 @@ export default {
 			});
 
 			function updateImage() {
-				const image = document.getElementById('testImage');
-				const url = new URL(image.src);
 				const nonce = Math.floor(Date.now() / 1000);
-
-				url.searchParams.has('t') ? url.searchParams.set('t', nonce) : url.searchParams.append('t', nonce);
-
-				image.src = url.toString();
+				document.getElementById('testImage').src = `${url}/image?t=${nonce}`;
 			}
 		</script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
